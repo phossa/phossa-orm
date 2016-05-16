@@ -1,0 +1,30 @@
+{
+  "name" : "phossa/phossa-orm",
+  "description" : "An ORM library for PHP",
+  "require" : {
+    "php" : ">=5.4.0",
+    "phossa/phossa-query": "~1.0.1",
+    "phossa/phossa-db": "~1.0.2"
+  },
+  "license" : "MIT",
+  "keywords" : [ "phossa", "orm" ],
+  "autoload-dev" : {
+    "psr-0" : {
+      "Phossa\\Orm\\" : "tests/src/"
+    }
+  },
+  "autoload" : {
+    "psr-0" : {
+      "Phossa\\Orm\\" : "src/"
+    }
+  },
+  "archive" : {
+    "exclude" : [ "!vendor", "tests", "*phpunit.xml", "composer.lock" ]
+  },
+  "type" : "library",
+  "homepage" : "https://github.com/phossa/phossa-orm",
+  "authors" : [ {
+    "name" : "Hong Zhang",
+    "homepage" : "https://github.com/phossa"
+  } ]
+}
