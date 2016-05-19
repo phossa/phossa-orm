@@ -33,9 +33,9 @@ class Message extends MessageAbstract
      */
 
     /**
-     * Orm position "%s" unknown
+     * Orm column "%s" not found
      */
-    const ORM = 1605051116;
+    const ORM_COLUMN_NOTFOUND   = 1605190933;
 
     /**#@-*/
 
@@ -43,5 +43,6 @@ class Message extends MessageAbstract
      * {@inheritdoc}
      */
     protected static $messages = [
+        self::ORM_COLUMN_NOTFOUND   => 'Orm column "%s" not found',
     ];
 }

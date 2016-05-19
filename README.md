@@ -35,6 +35,43 @@ or add the following lines to your `composer.json`
 }
 ```
 
+Features
+---
+
+- Use either INT, BIGINT or UUID for primary key
+
+- Model name can be different from table name.
+
+  - tableNameType: sameAsModel, camelCase or snake_case
+
+  - tableNamePrefix: added a prefix 'tbl_' etc.
+
+  - tableName: exact table name
+
+
+- Property name can be different from column name.
+
+- Create table if not exists or force drop & create
+
+- autoColumns like createTime, updateTime, deleteTime etc.
+
+- auto validation & conversion of data on saving().
+
+- setter & getter
+
+- getter methods.
+
+  ```php
+  class Users extends Model
+  {
+      getterMethods = [
+        'fullName' => function() {
+            return $this.firstName . ' ' . $this.lastName;
+        },
+      ];
+  }
+  ```
+
 Usage
 ---
 
