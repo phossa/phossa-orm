@@ -6,31 +6,26 @@
  *
  * @category  Library
  * @package   Phossa\Orm
- * @copyright 2016 phossa.com
+ * @copyright 2015 phossa.com
  * @license   http://mit-license.org/ MIT License
  * @link      http://www.phossa.com/
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
+namespace Phossa\Orm\Exception;
 
-use Phossa\Orm\Column\Type\IntType;
+use Phossa\Shared\Exception\RuntimeException as RTException;
 
 /**
- * options, used to store status bits etc.
+ * RuntimeException for \Phossa\Orm
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     IntType
+ * @see     ExceptionInterface
+ * @see     \Phossa\Shared\Exception\RuntimeException
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class OptionsColumn extends IntType
+class RuntimeException extends RTException implements ExceptionInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected static $column_settings = [
-        'unsigned' => true,
-    ];
 }

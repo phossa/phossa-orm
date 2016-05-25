@@ -12,38 +12,30 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column\Type;
+namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Column\Column;
+use Phossa\Orm\Type\IntType;
 
 /**
- * INT
+ * OptionsProperty
+ *
+ * Used as option bits property.
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     Column
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class IntType extends Column
+class OptionsProperty extends IntType implements PropertyInterface
 {
     /**
      * {@inheritDoc}
      */
-    protected static $column_settings = [
-        // data type
-        'dataType'      => DataType::INT,
+    protected static $default_attributes = [
+        // 'options' can be used as name
+        'nameMust'      => false,
 
-        // zero fill, boolean
-        'zeroFill'      => false,
-
-        // unsigned ?
-        'unsigned'      => false,
-
-        // column length, int
-        'length'        => 11,
-
-        // default value, string
+        // default
         'default'       => '0',
     ];
 }

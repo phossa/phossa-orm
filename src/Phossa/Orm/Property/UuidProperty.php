@@ -12,26 +12,33 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column\Type;
+namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Column\Column;
+use Phossa\Orm\Type\BinaryType;
 
 /**
- * TIMESTAMP
+ * UuidProperty
+ *
+ * Custom uuid property
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     Column
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class TimestampType extends Column
+class UuidProperty extends BinaryType implements PropertyInterface
 {
     /**
      * {@inheritDoc}
      */
-    protected static $column_settings = [
-        'dataType'   => DataType::TIMESTAMP,
-        'defaultRaw' => 'CURRENT_TIMESTAMP',
+    protected static $default_attributes = [
+        // 'uuid' can be used as name
+        'nameMust'  => false,
+
+        // data size
+        'dataSize'  => 16,
+
+        // unique
+        'uniqueKey' => true,
     ];
 }

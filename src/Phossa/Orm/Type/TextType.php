@@ -12,24 +12,26 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Model;
-
-use Phossa\Validate\ValidatorAwareTrait;
+namespace Phossa\Orm\Type;
 
 /**
- * Base Model class
+ * TextType
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     ModelInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-abstract class ModelAbstract implements ModelInterface
+class TextType extends TypeAbstract
 {
-    use ModelRowTrait,
-        ModelBootTrait,
-        ModelTableTrait,
-        ModelPropertyTrait,
-        ValidatorAwareTrait;
+    /**
+     * {@inheritDoc}
+     */
+    protected static $default_attributes = [
+        // data type
+        'dataType'  => DataType::TEXT,
+
+        // nullable
+        'notNull'   => false,
+    ];
 }

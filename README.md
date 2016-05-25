@@ -38,16 +38,55 @@ or add the following lines to your `composer.json`
 Features
 ---
 
+- `Model` & `Field`
+
+  - `Model` maps to one row in the table
+
+  - `Field` (normally) maps to one column in the table
+
+- `Model` name & `table` name
+
+  - `model` name used in PHP code
+
+  - `table` name is the real database table name
+
+  - may defined a table name prefix
+
+- `Field` name & `column` name
+
+  - `field` used in PHP code
+
+  - `column` name is the real column name in the db table
+
+  - may defined a column name prefix
+
+- Inheritance
+
+  - Single table inheritance
+
+    - multiple models map to one table (share one table)
+
+- Behaviors
+
+  - An extra table 'orm_behavior' (configurable) to store various behaviors
+
+  - use of model name as primary key, behavior type, behavior action
+
+- Multiple input/output methods
+
+  - `fromArray()`, `fromJson()`, `fromXml()`
+
+  - `toArray()`, `toJson()`, `toXml()`
+
+- Query methods
+
+  - `find($key)`: find by primary key[s]
+
+  - `findAll($filter)`: find all with filtering(where) clause
+
+  - `page($pageNumber, $filter = '')`: find page by filtering
+
 - Use either INT, BIGINT or UUID for primary key
-
-- Model name can be different from table name.
-
-  - tableNameType: sameAsModel, camelCase or snake_case
-
-  - tableNamePrefix: added a prefix 'tbl_' etc.
-
-  - tableName: exact table name
-
 
 - Property name can be different from column name.
 

@@ -12,42 +12,48 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
+namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Column\Type\TextType;
-use Phossa\Orm\Model\ModelAbstract;
+use Phossa\Orm\Type\TextType;
 
 /**
- * settings, used to store serialized value
+ * Used for serialized settings
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     TextType
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class SettingsColumn extends TextType
+class SettingsProperty extends TextType implements PropertyInterface
 {
     /**
      * {@inheritDoc}
      */
-    protected static $column_settings = [
-        'default'     => 'a:0:{}',  // an empty array
-        'columnOrder' => 100,       // normally the last column
-        'callable'    => [
-            'beforeSave' => 'beforeSave',   // own method
-            'afterGet'   => 'afterGet',     // own method
+    protected static $default_attributes = [
+        // 'settings' can be used as name
+        'nameMust'  => false,
+
+        // default is an empty array
+        'default'   => 'a:0:{}',
+
+        // callable
+        'callable'  => [
+            'beforeSave' => 'beforeSave',
+            'afterGet'   => 'afterGet',
         ],
     ];
 
     /**
      * Convert any unknown columns, such as 'alias' to settings['alias']
      *
-     * @param ModelAbstract $model
      * @access public
      */
-    public function beforeSave(ModelAbstract $model)
+    public function beforeSave()
     {
+        // model
+        $model = $this->getModel();
+
+        // data to serialize
         $data = $model->toArray();
 
         // remove explicit colum from $data
@@ -64,12 +70,15 @@ class SettingsColumn extends TextType
     /**
      * Convert any settings , such as settings['alias'] to $model->alias
      *
-     * @param ModelAbstract $model
      * @access public
      */
-    public function afterGet(ModelAbstract $model)
+    public function afterGet()
     {
+        // model
+        $model = $this->getModel();
+
         $settings = unserialize($model->settings);
+
         unset($model->settings);
         foreach ($settings as $key => $val) {
             $model->$key = $val;

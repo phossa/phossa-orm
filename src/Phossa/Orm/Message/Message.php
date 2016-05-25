@@ -32,10 +32,30 @@ class Message extends MessageAbstract
      * @var   int
      */
 
-    /**
-     * Orm column "%s" not found
+    /*
+     * Name is missing
      */
-    const ORM_COLUMN_NOTFOUND   = 1605190933;
+    const ORM_NAME_NOTFOUND     = 1605241053;
+
+    /*
+     * Model "%s" not found
+     */
+    const ORM_MODEL_NOTFOUND    = 1605241054;
+
+    /*
+     * Model "%s" shares parent table "%s"
+     */
+    const ORM_MODEL_SAMETABLE   = 1605241055;
+
+    /*
+     * Property "%s" does NOT allow column
+     */
+    const ORM_PROP_NOCOLUMN     = 1605241056;
+
+    /*
+     * Property "%s" not found
+     */
+    const ORM_PROP_NOTFOUND     = 1605241057;
 
     /**#@-*/
 
@@ -43,6 +63,10 @@ class Message extends MessageAbstract
      * {@inheritdoc}
      */
     protected static $messages = [
-        self::ORM_COLUMN_NOTFOUND   => 'Orm column "%s" not found',
+        self::ORM_NAME_NOTFOUND     => 'Name is missing',
+        self::ORM_MODEL_NOTFOUND    => 'Model "%s" not found',
+        self::ORM_MODEL_SAMETABLE   => 'Model "%s" shares parent table "%s"',
+        self::ORM_PROP_NOCOLUMN     => 'Property "%s" does NOT allow column',
+        self::ORM_PROP_NOTFOUND     => 'Property "%s" not found',
     ];
 }

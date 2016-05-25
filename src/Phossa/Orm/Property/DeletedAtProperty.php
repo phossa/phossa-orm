@@ -12,26 +12,28 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column\Type;
+namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Column\Column;
+use Phossa\Orm\Type\TimestampType;
 
 /**
- * TEXT
+ * DeletedAtProperty
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     Column
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class TextType extends Column
+class DeletedAtProperty extends TimestampType implements PropertyInterface
 {
     /**
      * {@inheritDoc}
      */
-    protected static $column_settings = [
-        'dataType' => DataType::TEXT,
-        'notNull'  => false,
+    protected static $default_attributes = [
+        // 'deleted_at' can be used as name
+        'nameMust'      => false,
+
+        // nullable
+        'notNull'       => false,
     ];
 }

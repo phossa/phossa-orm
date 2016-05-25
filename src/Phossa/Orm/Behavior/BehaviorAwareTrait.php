@@ -12,26 +12,27 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
-
-use Phossa\Orm\Column\Type\TimestampType;
+namespace Phossa\Orm\Behavior;
 
 /**
- * deleted_at column
+ * BehaviorAwareTrait
+ *
+ * Behavior aware for a Model.
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     TimestampType
+ * @see     BehaviorAwareInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class DeletedAtColumn extends TimestampType
+trait BehaviorAwareTrait
 {
     /**
-     * {@inheritDoc}
+     * behavior table sitting in the same DB of the model
+     *
+     * @var    string
+     * @access protected
+     * @staticvar
      */
-    protected static $column_settings = [
-        // nullable
-        'notNull' => false,
-    ];
+    protected static $behavior_table = 'tbl_orm_behavior';
 }

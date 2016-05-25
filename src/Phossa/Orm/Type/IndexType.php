@@ -12,29 +12,31 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
-
-use Phossa\Orm\Column\Type\IntType;
+namespace Phossa\Orm\Type;
 
 /**
- * id, primary key
+ * IndexType
+ *
+ * Base type for an index
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     IntType
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class IdColumn extends IntType
+class IndexType extends TypeAbstract
 {
     /**
      * {@inheritDoc}
      */
-    protected static $column_settings = [
-        // is primary
-        'primaryKey'    => true,
+    protected static $default_attributes = [
+        // pseudo type
+        'dataType'      => DataType::INDEX,
 
-        // auto increment
-        'autoIncrement' => true,
+        // no column
+        'columnName'    => false,
+
+        // must provide a name
+        'nameMust'      => true
     ];
 }

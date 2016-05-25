@@ -12,29 +12,29 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
-
-use Phossa\Orm\Column\Type\BinaryType;
+namespace Phossa\Orm\Type;
 
 /**
- * uuid, an unique 32char(without '-') in binary format
+ * IntType
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     BinaryType
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class UuidColumn extends BinaryType
+class IntType extends TypeAbstract
 {
     /**
      * {@inheritDoc}
      */
-    protected static $column_settings = [
-        // storage length
-        'length'    => 16,
+    protected static $default_attributes = [
+        // int type
+        'dataType'  => DataType::INTEGER,
 
-        // unique
-        'uniqueKey' => true,
+        // ZEROFILL
+        'zeroFill'  => false,
+
+        // UNSIGNED
+        'unsigned'  => false,
     ];
 }

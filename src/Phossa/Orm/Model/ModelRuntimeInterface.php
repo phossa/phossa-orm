@@ -14,22 +14,18 @@
 
 namespace Phossa\Orm\Model;
 
-use Phossa\Validate\ValidatorAwareTrait;
+use Phossa\Validate\ValidatorAwareInterface;
 
 /**
- * Base Model class
+ * ModelRuntimeInterface
+ *
+ * Model object related methods.
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     ModelInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-abstract class ModelAbstract implements ModelInterface
+interface ModelRuntimeInterface extends ModelRowInterface, ValidatorAwareInterface
 {
-    use ModelRowTrait,
-        ModelBootTrait,
-        ModelTableTrait,
-        ModelPropertyTrait,
-        ValidatorAwareTrait;
 }

@@ -12,7 +12,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column\Type;
+namespace Phossa\Orm\Type;
 
 /**
  * Common datatypes
@@ -28,15 +28,21 @@ class DataType
      * @var   string
      */
 
-    const INT           = 'INT';
+    const INTEGER       = 'INTEGER';
     const TINYINT       = 'TINYINT';
     const SMALLINT      = 'SMALLINT';
     const BIGINT        = 'BIGINT';
 
     const TIMESTAMP     = 'TIMESTAMP';
 
+    const VARCHAR       = 'VARCHAR';
     const TEXT          = 'TEXT';
     const BINARY        = 'BINARY';
+
+    // pseudo types
+    const INDEX         = '__INDEX__';      // for table index
+    const SHARE         = '__SHARE__';      // single table inheritance
+    const RELATION      = '__RELATION__';
 
     /**#@-*/
 }

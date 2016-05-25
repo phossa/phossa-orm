@@ -12,19 +12,22 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
-
-use Phossa\Orm\Column\Type\TimestampType;
+namespace Phossa\Orm\Type;
 
 /**
- * created_at column
+ * BigintType
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     TimestampType
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class CreatedAtColumn extends TimestampType
+class BigintType extends IntType
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected static $default_attributes = [
+        'dataType'  => DataType::BIGINT,
+    ];
 }

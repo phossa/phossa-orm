@@ -12,24 +12,22 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Model;
+namespace Phossa\Orm\Behavior;
 
-use Phossa\Validate\ValidatorAwareTrait;
+use Phossa\Orm\Model\ModelInterface;
 
 /**
- * Base Model class
+ * BehaviorInterface
+ *
+ * Behavior is a model itself
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @see     ModelInterface
+ * @see     ModelAwareInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-abstract class ModelAbstract implements ModelInterface
+interface BehaviorInterface extends ModelInterface
 {
-    use ModelRowTrait,
-        ModelBootTrait,
-        ModelTableTrait,
-        ModelPropertyTrait,
-        ValidatorAwareTrait;
 }

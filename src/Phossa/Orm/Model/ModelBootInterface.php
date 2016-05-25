@@ -14,22 +14,22 @@
 
 namespace Phossa\Orm\Model;
 
-use Phossa\Validate\ValidatorAwareTrait;
-
 /**
- * Base Model class
+ * ModelBootInterface
+ *
+ * Prepare model to be used
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     ModelInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-abstract class ModelAbstract implements ModelInterface
+interface ModelBootInterface
 {
-    use ModelRowTrait,
-        ModelBootTrait,
-        ModelTableTrait,
-        ModelPropertyTrait,
-        ValidatorAwareTrait;
+    /**
+     * Prepare this model
+     *
+     * @access public
+     */
+    public static function boot();
 }

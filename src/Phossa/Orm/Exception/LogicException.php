@@ -6,22 +6,26 @@
  *
  * @category  Library
  * @package   Phossa\Orm
- * @copyright 2016 phossa.com
+ * @copyright 2015 phossa.com
  * @license   http://mit-license.org/ MIT License
  * @link      http://www.phossa.com/
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
+namespace Phossa\Orm\Exception;
+
+use Phossa\Shared\Exception\LogicException as LException;
 
 /**
- * ColumnInterface
+ * LogicException for \Phossa\Orm
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
+ * @see     ExceptionInterface
+ * @see     \Phossa\Shared\Exception\LogicException
  * @version 1.0.0
  * @since   1.0.0 added
  */
-interface ColumnInterface
+class LogicException extends LException implements ExceptionInterface
 {
 }

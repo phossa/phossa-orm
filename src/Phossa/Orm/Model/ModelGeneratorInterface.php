@@ -12,25 +12,18 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column;
-
-use Phossa\Orm\Column\Type\TimestampType;
+namespace Phossa\Orm\Model;
 
 /**
- * modified_at column
+ * ModelGeneratorInterface
+ *
+ * Model preparation and factory methods. All static methods.
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     TimestampType
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class ModifiedAtColumn extends TimestampType
+interface ModelGeneratorInterface extends ModelTableInterface, ModelPropertyInterface, ModelBootInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected static $column_settings = [
-        'constraint' => 'ON UPDATE CURRENT_TIMESTAMP',
-    ];
 }

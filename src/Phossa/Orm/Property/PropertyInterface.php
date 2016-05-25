@@ -12,24 +12,16 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Model;
-
-use Phossa\Validate\ValidatorAwareTrait;
+namespace Phossa\Orm\Property;
 
 /**
- * Base Model class
+ * Marker for property
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     ModelInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-abstract class ModelAbstract implements ModelInterface
+interface PropertyInterface
 {
-    use ModelRowTrait,
-        ModelBootTrait,
-        ModelTableTrait,
-        ModelPropertyTrait,
-        ValidatorAwareTrait;
 }

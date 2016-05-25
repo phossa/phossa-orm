@@ -12,25 +12,23 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Column\Type;
-
-use Phossa\Orm\Column\Column;
+namespace Phossa\Orm\Behavior;
 
 /**
- * BINARY
+ * BehaviorAwareInterface
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
- * @see     Column
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class BinaryType extends Column
+interface BehaviorAwareInterface
 {
     /**
-     * {@inheritDoc}
+     * Get an array of behaviors of current model
+     *
+     * @return BehaviorInterface[]
+     * @access public
      */
-    protected static $column_settings = [
-        'dataType' => DataType::BINARY,
-    ];
+    public function getBehaviors()/*# : array */;
 }
