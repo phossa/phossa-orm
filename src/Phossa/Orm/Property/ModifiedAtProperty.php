@@ -14,8 +14,6 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\TimestampType;
-
 /**
  * ModifiedAtProperty
  *
@@ -24,7 +22,7 @@ use Phossa\Orm\Type\TimestampType;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class ModifiedAtProperty extends TimestampType implements PropertyInterface
+class ModifiedAtProperty extends UnixtimeProperty
 {
     /**
      * {@inheritDoc}
@@ -33,12 +31,12 @@ class ModifiedAtProperty extends TimestampType implements PropertyInterface
         // 'modified_at' can be used as name
         'nameMust'      => false,
 
-        // default
-        'defaultRaw'    => 'CURRENT_TIMESTAMP',
+        // insertable
+        'insertable'    => false,
 
-        // constraint
-        'constraint'    => [
-            'ON UPDATE CURRENT_TIMESTAMP'
+        // callable
+        'callable'      => [
+            'beforeUpdate'  => 'insertUnixTime',
         ],
     ];
 }

@@ -14,8 +14,6 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\BinaryType;
-
 /**
  * UuidProperty
  *
@@ -26,7 +24,7 @@ use Phossa\Orm\Type\BinaryType;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class UuidProperty extends BinaryType implements PropertyInterface
+class UuidProperty extends BinaryProperty
 {
     /**
      * {@inheritDoc}

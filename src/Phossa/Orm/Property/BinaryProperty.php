@@ -12,26 +12,29 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Type;
+namespace Phossa\Orm\Property;
+
+use Phossa\Query\Dialect\DataType;
 
 /**
- * VarcharType
+ * BinaryProperty
+ *
+ * Use this class if you need a BINARY column. Must set 'dataSize'
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class VarcharType extends TypeAbstract
+class BinaryProperty extends PropertyAbstract
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // data type
-        'dataType'  => DataType::VARCHAR,
+        'dataType'  => DataType::BINARY,
 
-        // data size
-        'dataSize'  => 32,
+        // user has to override this
+        'dataSize'      => 0,
     ];
 }

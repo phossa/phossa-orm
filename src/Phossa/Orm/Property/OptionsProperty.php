@@ -14,8 +14,6 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\IntType;
-
 /**
  * OptionsProperty
  *
@@ -26,16 +24,13 @@ use Phossa\Orm\Type\IntType;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class OptionsProperty extends IntType implements PropertyInterface
+class OptionsProperty extends BitProperty
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
         // 'options' can be used as name
-        'nameMust'      => false,
-
-        // default
-        'default'       => '0',
+        'nameMust' => false,
     ];
 }

@@ -26,4 +26,12 @@ namespace Phossa\Orm\Model;
  */
 interface ModelGeneratorInterface extends ModelTableInterface, ModelPropertyInterface, ModelBootInterface
 {
+    /**
+     * constants
+     */
+
+    /*
+     * point to the primary key property if any
+     */
+    const PROPERTY_PRIMARY_KEY  = '__primary_key__';
 }

@@ -12,7 +12,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Type;
+namespace Phossa\Orm\Property;
 
 use Phossa\Orm\Utility\Utility;
 use Phossa\Orm\Message\Message;
@@ -20,14 +20,15 @@ use Phossa\Orm\Utility\StaticVarTrait;
 use Phossa\Orm\Exception\LogicException;
 
 /**
- * TypeAbstract
+ * PropertyAbstract
  *
+ * @abstract
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class TypeAbstract implements TypeInterface
+abstract class PropertyAbstract implements PropertyInterface
 {
     use StaticVarTrait;
 
@@ -39,6 +40,9 @@ class TypeAbstract implements TypeInterface
      * @staticvar
      */
     protected static $default_attributes = [
+        // property type
+        'propertyType'  => PropertyInterface::TYPE_COLUMN,
+
         // must provide a new name
         'nameMust'      => true,
 
@@ -50,9 +54,6 @@ class TypeAbstract implements TypeInterface
 
         // is primary key, boolean
         'primaryKey'    => false,
-
-        // is unique key, boolean
-        'uniqueKey'     => false,
 
         // is foreign key, false|array
         'foreignKey'    => false,
@@ -135,10 +136,24 @@ class TypeAbstract implements TypeInterface
     /**
      * {@inheritDoc}
      */
+    public function hasColumn()/*# : bool */
+    {
+        return false !== $this->attributes['columnName'];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setColumnName(/*# string */ $colName)
     {
-        $this->attributes['columnName'] = $colName;
-        return $this;
+        if ($this->hasColumn()) {
+            $this->attributes['columnName'] = $colName;
+            return $this;
+        }
+        throw new LogicException(
+            Message::get(Message::ORM_PROP_NOCOLUMN, $this->getName()),
+            Message::ORM_PROP_NOCOLUMN
+        );
     }
 
     /**
@@ -168,20 +183,21 @@ class TypeAbstract implements TypeInterface
     /**
      * {@inheritDoc}
      */
-    public function isUnique()/*# : bool */
-    {
-        return (bool) $this->attributes['uniqueKey'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function isForeign()/*# : bool */
     {
         if (false === $this->attributes['foreignKey']) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isConstraint()/*# : bool */
+    {
+        return $this->attributes['propertyType'] &
+            PropertyInterface::TYPE_CONSTRAINT;
     }
 
     /**

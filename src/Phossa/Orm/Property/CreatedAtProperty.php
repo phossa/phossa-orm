@@ -14,17 +14,18 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\TimestampType;
-
 /**
  * CreatedAtProperty
+ *
+ * IF you want to use an UNIXTIME column to keep creation time. Model will
+ * insert current unixtime when create the row
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class CreatedAtProperty extends TimestampType implements PropertyInterface
+class CreatedAtProperty extends UnixtimeProperty
 {
     /**
      * {@inheritDoc}
@@ -33,10 +34,12 @@ class CreatedAtProperty extends TimestampType implements PropertyInterface
         // 'created_at' can be used as name
         'nameMust'      => false,
 
-        // default
-        'defaultRaw'    => 'CURRENT_TIMESTAMP',
-
         // updateable
         'updateable'    => false,
+
+        // callable
+        'callable'      => [
+            'beforeInsert'  => 'insertUnixTime',
+        ],
     ];
 }

@@ -15,28 +15,28 @@
 namespace Phossa\Orm\Property;
 
 /**
- * DeletedAtProperty
+ * ConstraintProperty
+ *
+ * Use this class if you need a table constraint like primary key, foreign
+ * key, index etc.
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class DeletedAtProperty extends UnixtimeProperty
+class ConstraintProperty extends PropertyAbstract implements ConstraintInterface
 {
+    use ConstraintTrait;
+
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // 'deleted_at' can be used as name
-        'nameMust'      => false,
+        // property type
+        'propertyType' => PropertyInterface::TYPE_CONSTRAINT,
 
-        // insertable
-        'insertable'    => false,
-
-        // callable
-        'callable'      => [
-            'beforeDelete'  => 'insertUnixTime',
-        ],
+        // not a column
+        'columnName' => false,
     ];
 }

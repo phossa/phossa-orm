@@ -14,8 +14,6 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\IntType;
-
 /**
  * 'id' is mostly used as primary key
  *
@@ -24,28 +22,19 @@ use Phossa\Orm\Type\IntType;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class IdProperty extends IntType implements PropertyInterface
+class IdProperty extends IntegerProperty
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // 'id' can be used as name
+        // 'id' will be used as column name if name not provided
         'nameMust'      => false,
 
-        // UNSIGNED
-        'unsigned'      => true,
-
-        // auto increment
+        // primary key etc.
         'autoIncrement' => true,
-
-        // primary key
         'primaryKey'    => true,
-
-        // insertable
-        'insertable'    => false,
-
-        // updateable
+        'insertable'    => true,
         'updateable'    => false,
     ];
 }

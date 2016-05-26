@@ -12,29 +12,28 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Type;
+namespace Phossa\Orm\Property;
+
+use Phossa\Query\Dialect\DataType;
 
 /**
- * IntType
+ * CharProperty
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class IntType extends TypeAbstract
+class CharProperty extends PropertyAbstract
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // int type
-        'dataType'  => DataType::INTEGER,
+        // data type
+        'dataType'  => DataType::CHAR,
 
-        // ZEROFILL
-        'zeroFill'  => false,
-
-        // UNSIGNED
-        'unsigned'  => false,
+        // data size
+        'dataSize'  => 16,
     ];
 }

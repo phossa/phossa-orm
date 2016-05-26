@@ -57,6 +57,10 @@ class Message extends MessageAbstract
      */
     const ORM_PROP_NOTFOUND     = 1605241057;
 
+    /*
+     * Invalid callable "%s" found
+     */
+    const ORM_INVALID_CALLABLE  = 1605241058;
     /**#@-*/
 
     /**
@@ -68,5 +72,6 @@ class Message extends MessageAbstract
         self::ORM_MODEL_SAMETABLE   => 'Model "%s" shares parent table "%s"',
         self::ORM_PROP_NOCOLUMN     => 'Property "%s" does NOT allow column',
         self::ORM_PROP_NOTFOUND     => 'Property "%s" not found',
+        self::ORM_INVALID_CALLABLE  => 'Invalid callable "%s" found',
     ];
 }

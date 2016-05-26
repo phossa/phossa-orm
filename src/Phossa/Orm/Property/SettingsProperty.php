@@ -14,8 +14,6 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\TextType;
-
 /**
  * Used for serialized settings
  *
@@ -24,7 +22,7 @@ use Phossa\Orm\Type\TextType;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class SettingsProperty extends TextType implements PropertyInterface
+class SettingsProperty extends PhpArrayProperty
 {
     /**
      * {@inheritDoc}
@@ -33,13 +31,10 @@ class SettingsProperty extends TextType implements PropertyInterface
         // 'settings' can be used as name
         'nameMust'  => false,
 
-        // default is an empty array
-        'default'   => 'a:0:{}',
-
         // callable
         'callable'  => [
-            'beforeSave' => 'beforeSave',
-            'afterGet'   => 'afterGet',
+            'beforeSave' => 'serializeData',
+            'afterGet'   => 'unserializeData',
         ],
     ];
 
@@ -52,6 +47,7 @@ class SettingsProperty extends TextType implements PropertyInterface
     {
         // model
         $model = $this->getModel();
+        $modelClass = get_class($model);
 
         // data to serialize
         $data = $model->toArray();

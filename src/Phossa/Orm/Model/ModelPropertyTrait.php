@@ -52,19 +52,19 @@ trait ModelPropertyTrait
      * properties cache
      *
      * @var    array
-     * @access protected
+     * @access private
      * @staticvar
      */
-    protected static $properties  = [];
+    private static $properties = [];
 
     /**
      * property to column mapping cache
      *
      * @var    array
-     * @access protected
+     * @access private
      * @staticvar
      */
-    protected static $columns = [];
+    private static $columns = [];
 
     /**
      * {@inheritDoc}
@@ -74,11 +74,20 @@ trait ModelPropertyTrait
         $class = get_called_class();
 
         // process the properties
-        if (!isset(static::$properties[$class])) {
-            static::$properties[$class] = static::generateProperties();
+        if (!isset(self::$properties[$class])) {
+            self::$properties[$class] = static::processProperties();
         }
 
-        return static::$properties[$class];
+        return self::$properties[$class];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function hasProperty(
+        /*# string */ $propertyName
+    )/*# : bool */ {
+        return isset(static::getProperties()[$propertyName]);
     }
 
     /**
@@ -87,14 +96,31 @@ trait ModelPropertyTrait
     public static function getProperty(
         /*# string */ $propertyName
     )/*# : PropertyInterface */ {
-        $properties = $this->getProperties();
-        if (!isset($properties[$propertyName])) {
+        if (static::hasProperty($propertyName)) {
+            return static::getProperties()[$propertyName];
+        } else {
             throw new NotFoundException(
                 Message::get(Message::ORM_PROP_NOTFOUND, $propertyName),
                 Message::ORM_PROP_NOTFOUND
-                );
+            );
         }
-        return $properties[$propertyName];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getPrimaryProperty()
+    {
+        $properties = static::getProperties();
+
+        /* @var $prop PropertyInterface */
+        foreach ($properties as $name => $prop) {
+            if ($prop->isPrimary()) {
+                return $prop;
+            }
+        }
+
+        return null;
     }
 
     /**

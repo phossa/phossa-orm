@@ -14,6 +14,8 @@
 
 namespace Phossa\Orm\Model;
 
+use Phossa\Orm\Exception\RuntimeException;
+
 /**
  * ModelBootInterface
  *
@@ -29,6 +31,7 @@ interface ModelBootInterface
     /**
      * Prepare this model
      *
+     * @throws RuntimeException invalid callable found
      * @access public
      */
     public static function boot();

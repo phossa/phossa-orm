@@ -14,6 +14,9 @@
 
 namespace Phossa\Orm\Model;
 
+use Phossa\Orm\Message\Message;
+use Phossa\Orm\Exception\RuntimeException;
+
 /**
  * ModelBootTrait
  *
@@ -35,7 +38,7 @@ trait ModelBootTrait
     private static $boot_status = [];
 
     /**
-     * boot callables
+     * boot callables, [ 'name' => callable, ... ]
      *
      * @var    callable[]
      * @access protected
@@ -86,6 +89,11 @@ trait ModelBootTrait
                 $res[$name] = $call;
             } elseif (is_string($call) && method_exists($class, $call)) {
                 $res[$name] = [$class, $call];
+            } else {
+                throw new RuntimeException(
+                    Message::get(Message::ORM_INVALID_CALLABLE, $name),
+                    Message::ORM_INVALID_CALLABLE
+                );
             }
         }
 

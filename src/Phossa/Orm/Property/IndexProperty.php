@@ -15,28 +15,34 @@
 namespace Phossa\Orm\Property;
 
 /**
- * DeletedAtProperty
+ * IndexProperty
+ *
+ * Use this class if you need to define a primary key constraint with
+ * multiple columns !!!
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class DeletedAtProperty extends UnixtimeProperty
+class IndexProperty extends ConstraintProperty
 {
+    /**
+     * it is a index property
+     *
+     * @var    bool
+     * @access protected
+     */
+    protected $index = true;
+
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // 'deleted_at' can be used as name
-        'nameMust'      => false,
+        // not a column
+        'columnName' => false,
 
-        // insertable
-        'insertable'    => false,
-
-        // callable
-        'callable'      => [
-            'beforeDelete'  => 'insertUnixTime',
-        ],
+        // other properties used in this primary key
+        'properties' => [],
     ];
 }

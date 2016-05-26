@@ -22,6 +22,6 @@ namespace Phossa\Orm\Model;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-interface ModelInterface extends ModelGeneratorInterface, ModelRuntimeInterface, ModelRowInterface
+interface ModelInterface extends ModelGeneratorInterface, ModelRuntimeInterface
 {
 }

@@ -14,17 +14,17 @@
 
 namespace Phossa\Orm\Property;
 
-use Phossa\Orm\Type\BigintType;
-
 /**
  * BigIdProperty
+ *
+ * Use a BIGINT column as the primary key
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class BigIdProperty extends BigintType implements PropertyInterface
+class BigIdProperty extends BigintProperty
 {
     /**
      * {@inheritDoc}
@@ -46,7 +46,7 @@ class BigIdProperty extends BigintType implements PropertyInterface
         'primaryKey'    => true,
 
         // insertable
-        'insertable'    => false,
+        'insertable'    => true,
 
         // updateable
         'updateable'    => false,

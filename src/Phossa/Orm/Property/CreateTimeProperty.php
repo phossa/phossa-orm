@@ -15,28 +15,26 @@
 namespace Phossa\Orm\Property;
 
 /**
- * DeletedAtProperty
+ * CreatedTimeProperty
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class DeletedAtProperty extends UnixtimeProperty
+class CreatedTimeProperty extends TimestampProperty
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // 'deleted_at' can be used as name
+        // 'created_time' can be used as name
         'nameMust'      => false,
 
-        // insertable
-        'insertable'    => false,
+        // default
+        'defaultRaw'    => 'CURRENT_TIMESTAMP',
 
-        // callable
-        'callable'      => [
-            'beforeDelete'  => 'insertUnixTime',
-        ],
+        // updateable
+        'updateable'    => false,
     ];
 }

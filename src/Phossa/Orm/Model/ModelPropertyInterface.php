@@ -20,6 +20,8 @@ use Phossa\Orm\Exception\NotFoundException;
 /**
  * ModelPropertyInterface
  *
+ * Property related static methods.
+ *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
@@ -28,13 +30,24 @@ use Phossa\Orm\Exception\NotFoundException;
 interface ModelPropertyInterface
 {
     /**
-     * Get all properties for current model
+     * Get/process all properties for current model
      *
      * @return array
      * @access public
      * @static
      */
     public static function getProperties()/*# : array */;
+
+    /**
+     * Check the specific property
+     *
+     * @param  string $propertyName
+     * @return bool
+     * @access public
+     */
+    public static function hasProperty(
+        /*# string */ $propertyName
+    )/*# : bool */;
 
     /**
      * Get the specific property object
@@ -49,7 +62,22 @@ interface ModelPropertyInterface
     )/*# : PropertyInterface */;
 
     /**
-     * Get current model's mapping of propertyName => false|[tableName, colName],
+     * Get the primary key property
+     *
+     * @return PropertyInterface|null
+     * @access public
+     */
+    public static function getPrimaryProperty();
+
+    /**
+     * Get current model's mapping of
+     *
+     * [
+     *     propertyName => false,   // don't have a column
+     *     propertyName => colName, // the corresponding column
+     *     propertyName => [modelName, propertName], // map to another model
+     *     ...
+     * ]
      *
      * Underneath columns may exist in different tables !!
      *
@@ -63,9 +91,16 @@ interface ModelPropertyInterface
      *
      * property definitions: [ propertyName => true|property_defintion, ... ]
      * property_definition : [
-     *     'property' => '...', // propertyname without 'Property', such as 'BigId' etc.
-     *     'propertyClass' => '...', // fully qualified class name
-     *     'default'    => ...,   // property attributes
+     *     'property'   => ...,     // 'BigId' etc.
+     *     OR
+     *     'propertyClass' => ...,  // fully qualified class name
+     *     OR
+     *     'type'       => ...,     // 'Bigint' etc
+     *     OR
+     *     'typeClass'  => ...,     // fully qualified class name
+     *
+     *     THEN,
+     *     'default'    => ...,     // property attributes
      *     ...
      * ]
      *

@@ -14,29 +14,34 @@
 
 namespace Phossa\Orm\Property;
 
+use Phossa\Query\Dialect\DataType;
+
 /**
- * DeletedAtProperty
+ * UnixtimeProperty
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class DeletedAtProperty extends UnixtimeProperty
+class UnixtimeProperty extends PropertyAbstract
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // 'deleted_at' can be used as name
-        'nameMust'      => false,
-
-        // insertable
-        'insertable'    => false,
-
-        // callable
-        'callable'      => [
-            'beforeDelete'  => 'insertUnixTime',
-        ],
+        'dataType'  => DataType::UNIXTIME,
+        'default'       => 0,
     ];
+
+    /**
+     * update value
+     *
+     * @param  array &$data
+     * @access public
+     */
+    public function insertUnixTime(array &$data)
+    {
+        $data[$this->getName()] = time();
+    }
 }

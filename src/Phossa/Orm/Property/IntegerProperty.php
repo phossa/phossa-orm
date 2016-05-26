@@ -12,31 +12,26 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Type;
+namespace Phossa\Orm\Property;
+
+use Phossa\Query\Dialect\DataType;
 
 /**
- * IndexType
- *
- * Base type for an index
+ * IntegerProperty
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class IndexType extends TypeAbstract
+class IntegerProperty extends PropertyAbstract
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        // pseudo type
-        'dataType'      => DataType::INDEX,
-
-        // no column
-        'columnName'    => false,
-
-        // must provide a name
-        'nameMust'      => true
+        'dataType'  => DataType::INTEGER,
+        'zeroFill'      => false,
+        'unsigned'      => false,
     ];
 }

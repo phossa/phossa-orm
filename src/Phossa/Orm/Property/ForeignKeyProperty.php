@@ -12,22 +12,28 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa\Orm\Type;
+namespace Phossa\Orm\Property;
 
 /**
- * BigintType
+ * ForeignKeyProperty
+ *
+ * Use this class if you need to define a foreign key constraint
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class BigintType extends IntType
+class ForeignKeyProperty extends ConstraintProperty
 {
     /**
      * {@inheritDoc}
      */
     protected static $default_attributes = [
-        'dataType'  => DataType::BIGINT,
+        // override this
+        'foreignKey' => true,
+
+        // has a column !!
+        'columnName' => true,
     ];
 }

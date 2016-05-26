@@ -15,28 +15,26 @@
 namespace Phossa\Orm\Property;
 
 /**
- * DeletedAtProperty
+ * ConstraintInterface
+ *
+ * Table constraint (foreign key, index etc.)
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
  * @version 1.0.0
  * @since   1.0.0 added
  */
-class DeletedAtProperty extends UnixtimeProperty
+interface ConstraintInterface
 {
     /**
-     * {@inheritDoc}
+     * @return bool
+     * @access public
      */
-    protected static $default_attributes = [
-        // 'deleted_at' can be used as name
-        'nameMust'      => false,
+    public function isIndex()/*# : bool */;
 
-        // insertable
-        'insertable'    => false,
-
-        // callable
-        'callable'      => [
-            'beforeDelete'  => 'insertUnixTime',
-        ],
-    ];
+    /**
+     * @return bool
+     * @access public
+     */
+    public function isBehavior()/*# : bool */;
 }
