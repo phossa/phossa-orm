@@ -14,8 +14,6 @@
 
 namespace Phossa\Orm\Model;
 
-use Phossa\Validate\ValidatorAwareTrait;
-
 /**
  * Base Model class
  *
@@ -27,9 +25,15 @@ use Phossa\Validate\ValidatorAwareTrait;
  */
 abstract class ModelAbstract implements ModelInterface
 {
-    use ModelRowTrait,
-        ModelBootTrait,
-        ModelTableTrait,
-        ModelPropertyTrait,
-        ValidatorAwareTrait;
+    use ModelFactoryTrait, ModelRuntimeTrait;
+
+    /**
+     * Construct the model
+     *
+     * @access public
+     */
+    public function __construct()
+    {
+        $this->init();
+    }
 }

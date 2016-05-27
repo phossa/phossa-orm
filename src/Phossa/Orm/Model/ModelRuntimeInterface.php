@@ -15,6 +15,8 @@
 namespace Phossa\Orm\Model;
 
 use Phossa\Validate\ValidatorAwareInterface;
+use Phossa\Event\Interfaces\EventAwareInterface;
+use Phossa\Event\Interfaces\EventListenerInterface;
 
 /**
  * ModelRuntimeInterface
@@ -26,6 +28,6 @@ use Phossa\Validate\ValidatorAwareInterface;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-interface ModelRuntimeInterface extends ModelRowInterface, ValidatorAwareInterface
+interface ModelRuntimeInterface extends ModelRowInterface, ValidatorAwareInterface, EventAwareInterface, EventListenerInterface
 {
 }

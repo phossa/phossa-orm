@@ -15,7 +15,6 @@
 namespace Phossa\Orm\Model;
 
 use Phossa\Orm\Exception\NotFoundException;
-use Phossa\Orm\Exception\LogicException;
 
 /**
  * Model's table related methods
@@ -28,9 +27,7 @@ use Phossa\Orm\Exception\LogicException;
 interface ModelTableInterface
 {
     /**
-     * Return the model class name base on the given modelName
-     *
-     * Child classes may override this method to suit their own needs.
+     * Guess the model class name base on the given modelName
      *
      * @param  string $modelName
      * @return string
@@ -43,7 +40,9 @@ interface ModelTableInterface
     )/*# : string */;
 
     /**
-     * Get model name (without 'Model' prefix) for current class
+     * Get model name (without 'Model' suffix) for calling model
+     *
+     * Base on current model class name, cut off the suffix if any
      *
      * @return string
      * @access public
@@ -52,13 +51,21 @@ interface ModelTableInterface
     public static function getModelName()/*# : string */;
 
     /**
-     * Get the underneath table name for current model.
+     * Get the underneath table name for calling model.
      *
-     * Normally table name is built from table name prefix and model name.
+     * Three methods to define the table name,
+     *
+     * - set explicitly with `setTableName()`
+     *
+     * - set class::$table_name = 'yourTableName' when extending model class
+     *
+     *   - be sure to reset to `NULL` if parent model class set this already
+     *     and child don't want to use the same table.
+     *
+     * - set automatically by table name prefix and model name
      *
      * @return string
      * @access public
-     * @throws LogicException if invalid table name found
      * @static
      */
     public static function getTableName()/*# : string */;

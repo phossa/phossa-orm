@@ -14,16 +14,7 @@
 
 namespace Phossa\Orm\Model;
 
-/**
- * ModelInterface
- *
- * @package Phossa\Orm
- * @author  Hong Zhang <phossa@126.com>
- * @see     ModelFactoryInterface
- * @see     ModelRuntimeInterface
- * @version 1.0.0
- * @since   1.0.0 added
- */
-interface ModelInterface extends ModelFactoryInterface, ModelRuntimeInterface
+trait ModelFactoryTrait
 {
+    use ModelBootTrait, ModelTableTrait, ModelPropertyTrait;
 }

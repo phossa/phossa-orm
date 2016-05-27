@@ -58,15 +58,6 @@ trait ModelPropertyTrait
     private static $properties = [];
 
     /**
-     * property to column mapping cache
-     *
-     * @var    array
-     * @access private
-     * @staticvar
-     */
-    private static $columns = [];
-
-    /**
      * {@inheritDoc}
      */
     public static function getProperties()/*# : array */
@@ -128,44 +119,14 @@ trait ModelPropertyTrait
      */
     public static function getColumns()/*# : array */
     {
-        $class = get_called_class();
-
-        // process the property to column mapping
-        if (!isset(static::$columns[$class])) {
-            static::$columns[$class] = static::processColumns();
-        }
-
-        return static::$columns[$class];
-    }
-
-    /**
-     * Get/autogenerate column names for the properties
-     *
-     * @return array
-     * @access protected
-     */
-    protected static function processColumns()/*# : array */
-    {
-        $properties = static::getProperties();
         $result = [];
+        $properties = static::getProperties();
 
-        /* @var $fld PropertyInterface */
-        foreach ($properties as $fld) {
-            $name = $fld->getName();
-            $col  = $fld->getColumnName();
-
-            // no underneath column allowed
-            if (false === $col) {
-                continue;
+        /* @var $prop PropertyInterface */
+        foreach ($properties as $name => $prop) {
+            if ($prop->hasColumn()) {
+                $result[$prop->getColumnName()] = $prop;
             }
-
-            // auto generate col name
-            if (true === $col) {
-                $col = static::autoColumnName($name);
-                $fld->setColumnName($col);
-            }
-
-            $result[$name] = $col;
         }
         return $result;
     }

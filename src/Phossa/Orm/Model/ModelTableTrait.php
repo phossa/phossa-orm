@@ -16,7 +16,6 @@ namespace Phossa\Orm\Model;
 
 use Phossa\Orm\Utility\Utility;
 use Phossa\Orm\Message\Message;
-use Phossa\Orm\Exception\LogicException;
 use Phossa\Orm\Exception\NotFoundException;
 
 /**
@@ -75,21 +74,40 @@ trait ModelTableTrait
     protected static $database = '';
 
     /**
+     * possible namespaces for resolving a model name to its class
+     *
+     * @var    string[]
+     * @access protected
+     * @staticvar
+     */
+    protected static $model_search_ns = [];
+
+    /**
      * {@inheritDoc}
      */
     public static function getModelClass(
         /*# string */ $modelName
     )/*# : string */ {
-        $ns = (new \ReflectionClass(get_called_class()))->getNamespaceName();
-        $class = $ns . '\\' . $modelName . (static::$model_name_suffix ?: '');
-        if (class_exists($class)) {
-            return $class;
-        } else {
-            throw new NotFoundException(
-                Message::get(Message::ORM_MODEL_NOTFOUND, $modelName),
-                Message::ORM_MODEL_NOTFOUND
-            );
+
+        $search = static::$model_search_ns;
+
+        // append calling model namespace
+        $search[] = (new \ReflectionClass(get_called_class()))
+            ->getNamespaceName();
+
+        // search model class
+        foreach ($search as $ns) {
+            $class = $ns . '\\' . $modelName .
+                (static::$model_name_suffix ?: '');
+            if (class_exists($class)) {
+                return $class;
+            }
         }
+
+        throw new NotFoundException(
+            Message::get(Message::ORM_MODEL_NOTFOUND, $modelName),
+            Message::ORM_MODEL_NOTFOUND
+        );
     }
 
     /**
@@ -108,7 +126,7 @@ trait ModelTableTrait
      */
     public static function getTableName()/*# : string */
     {
-        // make sure booted
+        // make sure current model booted
         static::boot();
 
         $class  = get_called_class();
@@ -118,18 +136,8 @@ trait ModelTableTrait
         if (isset(self::$table_name[$class])) {
             $tbl = self::$table_name[$class];
 
-        // was set explicitly when extending parent class
+        // set explicitly when extending class
         } elseif (is_string(static::$table_name)) {
-            if (static::$table_name === $parent::$table_name) {
-                throw new LogicException(
-                    Message::get(
-                        Message::ORM_MODEL_SAMETABLE,
-                        static::getModelName(),
-                        static::$table_name
-                    ),
-                    Message::ORM_MODEL_SAMETABLE
-                );
-            }
             $tbl = static::$table_name;
 
         // table name auto-generation
@@ -138,7 +146,7 @@ trait ModelTableTrait
             static::setTableName($tbl);
         }
 
-        // db name set
+        // return with dbname if any
         return (static::$database ? (static::$database . '.') : '') . $tbl;
     }
 
@@ -166,7 +174,7 @@ trait ModelTableTrait
             static::getModelName(), static::$table_name_case
         );
 
-        // add prefix if any
+        // add table name prefix if any
         if (!empty(static::$table_name_prefix)) {
             $name = static::$table_name_prefix . $name;
         }

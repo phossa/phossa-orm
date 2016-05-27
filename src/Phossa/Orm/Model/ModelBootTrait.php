@@ -14,8 +14,10 @@
 
 namespace Phossa\Orm\Model;
 
+use Phossa\Event\EventManager;
 use Phossa\Orm\Message\Message;
 use Phossa\Orm\Exception\RuntimeException;
+use Phossa\Event\Interfaces\EventAwareStaticTrait;
 
 /**
  * ModelBootTrait
@@ -28,6 +30,8 @@ use Phossa\Orm\Exception\RuntimeException;
  */
 trait ModelBootTrait
 {
+    use EventAwareStaticTrait;
+
     /**
      * boot status cache
      *
@@ -38,74 +42,127 @@ trait ModelBootTrait
     private static $boot_status = [];
 
     /**
-     * boot callables, [ 'name' => callable, ... ]
+     * boot callables format:
      *
-     * @var    callable[]
+     * ```php
+     * $boot_callable = [
+     *     'uniqueName' => callable|function|[callable|function, priority]
+     * ];
+     * ```
+     *
+     * @var    array
      * @access protected
      * @staticvar
      */
-    protected static $boot_callable = [
-    ];
+    protected static $boot_callable = [];
 
     /**
      * {@inheritDoc}
      */
     public static function boot()
     {
-        $class = get_called_class();
-
         // booted already
-        if (isset(self::$boot_status[$class])) {
+        if (static::isBooted()) {
             return;
         }
 
-        // callables to boot
-        $callables = static::getBootCallable();
-        foreach ($callables as $callable) {
-            call_user_func($callable);
-        }
+        // trigger 'boot' event
+        $evtManager = (new EventManager())->attachListener(get_called_class());
+        static::setEventManagerStatically($evtManager);
+        static::triggerEventStatically('boot');
 
         // mark as booted
-        self::$boot_status[$class] = true;
+        self::$boot_status[get_called_class()] = true;
     }
 
     /**
-     * Get callables from inheritance tree
-     *
-     * @return array
-     * @access protected
-     * @static
+     * {@inheritDoc}
      */
-    protected static function getBootCallable()/*# : array */
+    public static function isBooted()/*# : bool */
+    {
+        return isset(self::$boot_status[get_called_class()]);
+    }
+
+    /**
+     * from EventListenerStaticInterface
+     *
+     * e.g.
+     * ```php
+     * public static function getEventsListening()
+     * {
+     *     return array(
+     *         eventName1 => 'method1', // method1 of static class
+     *         eventName2 => array('method2', 20), // priority 20
+     *         eventName3 => array(
+     *             [ 'method3', 70 ],
+     *             [ 'method4', 50 ]
+     *         )
+     *     );
+     * }
+     * ```
+     *
+     * {@inheritDoc}
+     */
+    public static function getEventsListening()/*# : array */
     {
         // merge callables
         $callables = static::getStaticVar('boot_callable');
 
-        // expand as valid callable
-        $class = get_called_class();
         $res = [];
         foreach ($callables as $name => $call) {
-            if (is_callable($call)) {
-                $res[$name] = $call;
-            } elseif (is_string($call) && method_exists($class, $call)) {
-                $res[$name] = [$class, $call];
-            } else {
-                throw new RuntimeException(
-                    Message::get(Message::ORM_INVALID_CALLABLE, $name),
-                    Message::ORM_INVALID_CALLABLE
-                );
+            // skip disabled callable
+            if (false === $call) {
+                continue;
             }
+
+            // resolve callable
+            $res[] = static::resolveCallable($name, $call);
         }
 
-        return $res;
+        // listen to 'boot' event
+        return ['boot' => $res];
     }
 
     /**
-     * Merge/replace static variable (array) in a inheritance tree
+     * resolve a callable
      *
-     * @param  string $varName
-     * @return array
-     * @access protected
+     * @param  string $name unique name to mark this callable
+     * @param  string|callable $callable
+     * @return array [callable, priority]
+     * @throws RuntimeException if not valid callable found
+     * @access public
+     */
+    protected function resolveCallable(
+        /*# string */ $name,
+        $callable
+    )/*# : callable */ {
+        // default priority
+        $prior = 50;
+
+        $class = get_called_class();
+
+        if (is_callable($callable)) {
+            return [$callable, $prior];
+
+        } elseif (is_array($callable)) {
+            return [
+                static::resolveCallable($name, $callable[0]),
+                $callable[1]
+            ];
+
+        } elseif (is_string($callable) && method_exists($class, $callable)) {
+            return [[$class, $callable], $prior];
+
+        } else {
+            throw new RuntimeException(
+                Message::get(Message::ORM_INVALID_CALLABLE, $name),
+                Message::ORM_INVALID_CALLABLE
+            );
+        }
+    }
+
+    /**
+     * shared from Utility\StaticVarTrait
      */
     abstract protected function getStaticVar($varName)/*# : array */;
 }

@@ -15,7 +15,7 @@
 namespace Phossa\Orm\Model;
 
 /**
- * ModelGeneratorInterface
+ * ModelFactoryInterface
  *
  * Model preparation and factory methods. All static methods.
  *
@@ -24,14 +24,6 @@ namespace Phossa\Orm\Model;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-interface ModelGeneratorInterface extends ModelTableInterface, ModelPropertyInterface, ModelBootInterface
+interface ModelFactoryInterface extends ModelBootInterface, ModelTableInterface, ModelPropertyInterface
 {
-    /**
-     * constants
-     */
-
-    /*
-     * point to the primary key property if any
-     */
-    const PROPERTY_PRIMARY_KEY  = '__primary_key__';
 }

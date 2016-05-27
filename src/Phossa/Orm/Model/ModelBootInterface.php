@@ -15,6 +15,8 @@
 namespace Phossa\Orm\Model;
 
 use Phossa\Orm\Exception\RuntimeException;
+use Phossa\Event\Interfaces\EventAwareStaticInterface;
+use Phossa\Event\Interfaces\EventListenerStaticInterface;
 
 /**
  * ModelBootInterface
@@ -26,13 +28,26 @@ use Phossa\Orm\Exception\RuntimeException;
  * @version 1.0.0
  * @since   1.0.0 added
  */
-interface ModelBootInterface
+interface ModelBootInterface extends EventAwareStaticInterface, EventListenerStaticInterface
 {
     /**
-     * Prepare this model
+     * Prepare this model, returns booted settings in array
      *
+     * @return array
      * @throws RuntimeException invalid callable found
      * @access public
+     * @static
      */
-    public static function boot();
+    public static function boot(
+
+    )/*# : array */;
+
+    /**
+     * Is this model booted ?
+     *
+     * @return bool
+     * @access public
+     * @staticvar
+     */
+    public static function isBooted()/*# : bool */;
 }

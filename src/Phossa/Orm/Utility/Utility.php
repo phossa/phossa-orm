@@ -31,10 +31,10 @@ class Utility extends StaticAbstract
      *
      * @var    int
      */
-    const CASE_SAME   = 1;  // no conversion
-    const CASE_PASCAL = 2;  // PascalCase
-    const CASE_CAMEL  = 3;  // camelCase
-    const CASE_SNAKE  = 4;  // snake_case
+    const CASE_SAME    = 1;  // no conversion
+    const CASE_PASCAL  = 2;  // PascalCase
+    const CASE_CAMEL   = 3;  // camelCase
+    const CASE_SNAKE   = 4;  // snake_case
 
     /**
      * Convert case of a string, property/column, model/table name etc.

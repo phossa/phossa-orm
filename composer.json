@@ -4,8 +4,8 @@
   "require" : {
     "php" : ">=5.4.0",
     "phossa/phossa-shared": "~1.0.11",
-    "phossa/phossa-event": "~1.0.4",
-    "phossa/phossa-query": "~1.0.3",
+    "phossa/phossa-event": "~1.0.7",
+    "phossa/phossa-query": "~1.0.4",
     "phossa/phossa-db": "~1.0.2"
   },
   "license" : "MIT",

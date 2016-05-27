@@ -15,6 +15,7 @@
 namespace Phossa\Orm\Model;
 
 use Phossa\Shared\Arrayable\ArrayableInterface;
+use Phossa\Orm\Exception\BadMethodCallException;
 
 /**
  * ModelRowInterface
@@ -43,6 +44,17 @@ interface ModelRowInterface extends ArrayableInterface
      * @access public
      */
     public function delete();
+
+    /**
+     * magic __call
+     *
+     * @param  string $method
+     * @param  array $arguments
+     * @return mixed
+     * @throws BadMethodCallException if method not found
+     * @access public
+     */
+    public function __call(/*# string */ $method, array $arguments);
 
     /**
      * setter

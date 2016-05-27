@@ -70,16 +70,7 @@ interface ModelPropertyInterface
     public static function getPrimaryProperty();
 
     /**
-     * Get current model's mapping of
-     *
-     * [
-     *     propertyName => false,   // don't have a column
-     *     propertyName => colName, // the corresponding column
-     *     propertyName => [modelName, propertName], // map to another model
-     *     ...
-     * ]
-     *
-     * Underneath columns may exist in different tables !!
+     * Get current model's columns ['columnName' => property]
      *
      * @return array
      * @access public
