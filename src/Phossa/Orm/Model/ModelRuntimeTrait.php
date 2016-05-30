@@ -16,7 +16,6 @@ namespace Phossa\Orm\Model;
 
 use Phossa\Validate\ValidatorAwareTrait;
 use Phossa\Event\Interfaces\EventAwareTrait;
-use Phossa\Event\EventManager;
 
 /**
  * ModelRuntimeTrait
@@ -28,23 +27,7 @@ use Phossa\Event\EventManager;
  */
 trait ModelRuntimeTrait
 {
-    use ModelRowTrait, ValidatorAwareTrait, EventAwareTrait;
-
-    /**
-     * Runtime init
-     *
-     * @access public
-     */
-    protected function init()
-    {
-        // set db driver
-
-        // set query builder
-
-        // init local event manager
-        $evtManager = (new EventManager())->attachListener($this);
-        $this->setEventManager($evtManager);
-    }
+    use ModelRowTrait, ValidatorAwareTrait, EventAwareTrait, ExecutorTrait;
 
     /**
      * {@inheritDoc}

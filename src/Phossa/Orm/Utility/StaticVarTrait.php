@@ -30,8 +30,9 @@ trait StaticVarTrait
      * @param  string $varName
      * @return array
      * @access protected
+     * @static
      */
-    protected function getStaticVar($varName)/*# : array */
+    protected static function getStaticVar($varName)/*# : array */
     {
         $class  = get_called_class();
         $parent = get_parent_class($class);

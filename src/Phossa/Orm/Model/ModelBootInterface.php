@@ -14,9 +14,13 @@
 
 namespace Phossa\Orm\Model;
 
+use Phossa\Db\Driver\DriverInterface;
 use Phossa\Orm\Exception\RuntimeException;
+use Phossa\Orm\Exception\NotFoundException;
 use Phossa\Event\Interfaces\EventAwareStaticInterface;
 use Phossa\Event\Interfaces\EventListenerStaticInterface;
+use Phossa\Query\Builder\BuilderInterface;
+use Phossa\Validate\ValidateInterface;
 
 /**
  * ModelBootInterface
@@ -31,23 +35,62 @@ use Phossa\Event\Interfaces\EventListenerStaticInterface;
 interface ModelBootInterface extends EventAwareStaticInterface, EventListenerStaticInterface
 {
     /**
-     * Prepare this model, returns booted settings in array
+     * Prepare this model
      *
-     * @return array
      * @throws RuntimeException invalid callable found
      * @access public
      * @static
      */
-    public static function boot(
-
-    )/*# : array */;
+    public static function boot();
 
     /**
-     * Is this model booted ?
+     * Set db driver statically
      *
-     * @return bool
+     * @param  DriverInterface $db
      * @access public
-     * @staticvar
      */
-    public static function isBooted()/*# : bool */;
+    public static function initDriver(DriverInterface $db);
+
+    /**
+     * get db driver
+     *
+     * @return DriverInterface
+     * @throws NotFoundException driver not found
+     * @access public
+     */
+    public static function getInitDriver()/*# : DriverInterface */;
+
+    /**
+     * set query builder statically
+     *
+     * @param  BuilderInterface $builder
+     * @access public
+     */
+    public static function initQueryBuilder(BuilderInterface $builder);
+
+    /**
+     * get query builder
+     *
+     * @return BuilderInterface
+     * @throws NotFoundException query builder not found
+     * @access public
+     */
+    public static function getInitQueryBuilder()/*# : BuilderInterface */;
+
+    /**
+     * set validator
+     *
+     * @param  ValidateInterface $validator
+     * @access public
+     */
+    public static function initValidator(ValidateInterface $validator);
+
+    /**
+     * get validator
+     *
+     * @return ValidateInterface
+     * @throws NotFoundException validator not found
+     * @access public
+     */
+    public static function getInitValidator()/*# : ValidateInterface */;
 }

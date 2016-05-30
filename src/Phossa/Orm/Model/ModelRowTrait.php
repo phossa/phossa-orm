@@ -26,7 +26,7 @@ namespace Phossa\Orm\Model;
 trait ModelRowTrait
 {
     /**
-     * row data from table
+     * current row data
      *
      * @var    array
      * @access protected

@@ -61,6 +61,22 @@ class Message extends MessageAbstract
      * Invalid callable "%s" found
      */
     const ORM_INVALID_CALLABLE  = 1605241058;
+
+    /*
+     * DB driver not found
+     */
+    const ORM_DB_NOTFOUND       = 1605241059;
+
+    /*
+     * Query builder not found
+     */
+    const ORM_BUILDER_NOTFOUND  = 1605241060;
+
+    /*
+     * Validator not found
+     */
+    const ORM_VALIDATE_NOTFOUND = 1605241061;
+
     /**#@-*/
 
     /**
@@ -73,5 +89,8 @@ class Message extends MessageAbstract
         self::ORM_PROP_NOCOLUMN     => 'Property "%s" does NOT allow column',
         self::ORM_PROP_NOTFOUND     => 'Property "%s" not found',
         self::ORM_INVALID_CALLABLE  => 'Invalid callable "%s" found',
+        self::ORM_DB_NOTFOUND       => 'DB driver not found',
+        self::ORM_BUILDER_NOTFOUND  => 'Query builder not found',
+        self::ORM_VALIDATE_NOTFOUND => 'Validator not found',
     ];
 }

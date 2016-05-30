@@ -130,7 +130,6 @@ trait ModelTableTrait
         static::boot();
 
         $class  = get_called_class();
-        $parent = get_parent_class($class);
 
         // set by setTableName() or auto-generated already
         if (isset(self::$table_name[$class])) {

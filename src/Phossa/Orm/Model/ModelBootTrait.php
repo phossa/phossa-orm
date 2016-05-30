@@ -16,7 +16,11 @@ namespace Phossa\Orm\Model;
 
 use Phossa\Event\EventManager;
 use Phossa\Orm\Message\Message;
+use Phossa\Db\Driver\DriverInterface;
+use Phossa\Validate\ValidateInterface;
 use Phossa\Orm\Exception\RuntimeException;
+use Phossa\Query\Builder\BuilderInterface;
+use Phossa\Orm\Exception\NotFoundException;
 use Phossa\Event\Interfaces\EventAwareStaticTrait;
 
 /**
@@ -42,6 +46,33 @@ trait ModelBootTrait
     private static $boot_status = [];
 
     /**
+     * db driver
+     *
+     * @var    DriverInterface
+     * @access protected
+     * @staticvar
+     */
+    protected static $s_dbdriver;
+
+    /**
+     * query builder
+     *
+     * @var    BuilderInterface
+     * @access protected
+     * @staticvar
+     */
+    protected static $s_query_builder;
+
+    /**
+     * validator
+     *
+     * @var    ValidateInterface
+     * @access protected
+     * @staticvar
+     */
+    protected static $s_validator;
+
+    /**
      * boot callables format:
      *
      * ```php
@@ -62,25 +93,84 @@ trait ModelBootTrait
     public static function boot()
     {
         // booted already
-        if (static::isBooted()) {
+        $class = get_called_class();
+        if (isset(self::$boot_status[$class])) {
             return;
         }
 
         // trigger 'boot' event
-        $evtManager = (new EventManager())->attachListener(get_called_class());
+        $evtManager = (new EventManager())->attachListener($class);
         static::setEventManagerStatically($evtManager);
         static::triggerEventStatically('boot');
 
         // mark as booted
-        self::$boot_status[get_called_class()] = true;
+        self::$boot_status[$class] = true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public static function isBooted()/*# : bool */
+    public static function initDriver(DriverInterface $db)
     {
-        return isset(self::$boot_status[get_called_class()]);
+        static::$s_dbdriver = $db;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getInitDriver()/*# : DriverInterface */
+    {
+        if (is_null(static::$s_dbdriver)) {
+            throw new NotFoundException(
+                Message::get(Message::ORM_DB_NOTFOUND),
+                Message::ORM_DB_NOTFOUND
+            );
+        }
+        return static::$s_dbdriver;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function initQueryBuilder(BuilderInterface $builder)
+    {
+        static::$s_query_builder = $builder;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getInitQueryBuilder()/*# : BuilderInterface */
+    {
+        if (is_null(static::$s_query_builder)) {
+            throw new NotFoundException(
+                Message::get(Message::ORM_BUILDER_NOTFOUND),
+                Message::ORM_BUILDER_NOTFOUND
+            );
+        }
+        return static::$s_query_builder;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function initValidator(ValidateInterface $validator)
+    {
+        static::$s_validator = $validator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getInitValidator()/*# : ValidateInterface */
+    {
+        if (is_null(static::$s_validator)) {
+            throw new NotFoundException(
+                Message::get(Message::ORM_VALIDATE_NOTFOUND),
+                Message::ORM_VALIDATE_NOTFOUND
+                );
+        }
+        return static::$s_validator;
     }
 
     /**
@@ -88,7 +178,7 @@ trait ModelBootTrait
      *
      * e.g.
      * ```php
-     * public static function getEventsListening()
+     * public static function getEventsListeningStatically()
      * {
      *     return array(
      *         eventName1 => 'method1', // method1 of static class
@@ -103,7 +193,7 @@ trait ModelBootTrait
      *
      * {@inheritDoc}
      */
-    public static function getEventsListening()/*# : array */
+    public static function getEventsListeningStatically()/*# : array */
     {
         // merge callables
         $callables = static::getStaticVar('boot_callable');
@@ -128,30 +218,26 @@ trait ModelBootTrait
      *
      * @param  string $name unique name to mark this callable
      * @param  string|callable $callable
+     * @param  int $priority  queue priority
      * @return array [callable, priority]
      * @throws RuntimeException if not valid callable found
      * @access public
+     * @static
      */
-    protected function resolveCallable(
+    protected static function resolveCallable(
         /*# string */ $name,
-        $callable
+        $callable,
+        /*# int */ $priority = 50
     )/*# : callable */ {
-        // default priority
-        $prior = 50;
-
         $class = get_called_class();
-
         if (is_callable($callable)) {
-            return [$callable, $prior];
+            return [$callable, $priority];
 
         } elseif (is_array($callable)) {
-            return [
-                static::resolveCallable($name, $callable[0]),
-                $callable[1]
-            ];
+            return static::resolveCallable($name, $callable[0], $callable[1]);
 
         } elseif (is_string($callable) && method_exists($class, $callable)) {
-            return [[$class, $callable], $prior];
+            return [[$class, $callable], $priority];
 
         } else {
             throw new RuntimeException(
@@ -164,5 +250,5 @@ trait ModelBootTrait
     /**
      * shared from Utility\StaticVarTrait
      */
-    abstract protected function getStaticVar($varName)/*# : array */;
+    abstract protected static function getStaticVar($varName)/*# : array */;
 }

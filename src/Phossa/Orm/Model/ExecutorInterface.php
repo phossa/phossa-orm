@@ -14,20 +14,21 @@
 
 namespace Phossa\Orm\Model;
 
-use Phossa\Validate\ValidatorAwareInterface;
-use Phossa\Event\Interfaces\EventAwareInterface;
-use Phossa\Event\Interfaces\EventListenerInterface;
+use Phossa\Db\Driver\DriverAwareInterface;
+use Phossa\Query\Statement\BuilderAwareInterface;
+use Phossa\Query\Statement\ExecutorInterface as ExeInterface;
 
 /**
- * ModelRuntimeInterface
+ * ExecutorInterface
  *
- * Model object related methods.
+ * Query executor
  *
  * @package Phossa\Orm
  * @author  Hong Zhang <phossa@126.com>
+ * @see     \Phossa\Query\Statement\ExecutorInterface
  * @version 1.0.0
  * @since   1.0.0 added
  */
-interface ModelRuntimeInterface extends ModelRowInterface, ValidatorAwareInterface, EventAwareInterface, EventListenerInterface, ExecutorInterface
+interface ExecutorInterface extends ExeInterface, BuilderAwareInterface, DriverAwareInterface
 {
 }
