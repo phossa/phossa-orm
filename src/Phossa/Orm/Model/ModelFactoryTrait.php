@@ -14,7 +14,16 @@
 
 namespace Phossa\Orm\Model;
 
+/**
+ * ModelFactoryTrait
+ *
+ * @package Phossa\Orm
+ * @author  Hong Zhang <phossa@126.com>
+ * @see     ModelFactoryInterface
+ * @version 1.0.0
+ * @since   1.0.0 added
+ */
 trait ModelFactoryTrait
 {
-    use ModelBootTrait, ModelTableTrait, ModelPropertyTrait;
+    use ModelTableTrait, ModelPropertyTrait;
 }

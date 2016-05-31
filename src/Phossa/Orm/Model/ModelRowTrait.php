@@ -25,6 +25,8 @@ namespace Phossa\Orm\Model;
  */
 trait ModelRowTrait
 {
+    use ExecutorTrait;
+
     /**
      * current row data
      *
@@ -32,6 +34,32 @@ trait ModelRowTrait
      * @access protected
      */
     protected $row_data = [];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function save()
+    {
+        $this->triggerEvent('beforeSave');
+
+
+        $this->triggerEvent('afterSave');
+    }
+
+    /**
+     * Delete current data from the underneath table
+     *
+     * @return bool
+     * @access public
+     */
+    public function delete()
+    {
+        $this->triggerEvent('beforeDelete');
+
+
+
+        $this->triggerEvent('afterDelete');
+    }
 
     /**
      * {@inheritDoc}

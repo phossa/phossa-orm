@@ -14,9 +14,6 @@
 
 namespace Phossa\Orm\Model;
 
-use Phossa\Validate\ValidatorAwareTrait;
-use Phossa\Event\Interfaces\EventAwareTrait;
-
 /**
  * ModelRuntimeTrait
  *
@@ -27,7 +24,7 @@ use Phossa\Event\Interfaces\EventAwareTrait;
  */
 trait ModelRuntimeTrait
 {
-    use ModelRowTrait, ValidatorAwareTrait, EventAwareTrait, ExecutorTrait;
+    use ModelRowTrait;
 
     /**
      * {@inheritDoc}

@@ -14,10 +14,9 @@
 
 namespace Phossa\Orm\Model;
 
-use Phossa\Event\EventManager;
 use Phossa\Db\Driver\DriverInterface;
-use Phossa\Query\Builder\BuilderInterface;
 use Phossa\Validate\ValidateInterface;
+use Phossa\Query\Builder\BuilderInterface;
 
 /**
  * Base Model class
@@ -42,24 +41,19 @@ abstract class ModelAbstract implements ModelInterface
         BuilderInterface $builder = null,
         ValidateInterface $validator = null
     ) {
-        // boot model
-        static::boot();
+        // set db driver if any
+        if (!is_null($driver)) {
+            $this->setDriver($driver);
+        }
 
-        // set db driver
-        $this->setDriver($driver ?: static::getInitDriver());
+        // set query builder if any
+        if (!is_null($builder)) {
+            $this->setBuilder($builder);
+        }
 
-        // set query builder
-        $qb = clone ($builder ?: static::getInitQueryBuilder());
-        $this->setBuilder(
-            $qb->table(static::getTableName(), 'tbl')
-               ->setExecutor($this)
-        );
-
-        // set validator
-        $this->setValidator($validator ?: static::getInitValidator());
-
-        // init local event manager
-        $evtManager = (new EventManager())->attachListener($this);
-        $this->setEventManager($evtManager);
+        // set validator if any
+        if (!is_null($validator)) {
+            $this->setValidator($validator);
+        }
     }
 }
